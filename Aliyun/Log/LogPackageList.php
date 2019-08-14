@@ -2,7 +2,8 @@
 
 namespace Log;
 
-class LogGroupList
+// message LogPackageList
+class LogPackageList
 {
     private $_unknown;
 
@@ -17,7 +18,7 @@ class LogGroupList
                 if (is_resource($in)) {
                     $fp = $in;
                 } else {
-                    throw new Exception('Invalid in parameter');
+                    throw new \Exception('Invalid in parameter');
                 }
             }
             $this->read($fp, $limit);
@@ -33,16 +34,16 @@ class LogGroupList
             }
             $wire = $tag & 0x07;
             $field = $tag >> 3;
-            //var_dump("LogGroupList: Found $field type " . Protobuf::get_wiretype($wire) . " $limit bytes left");
+            //var_dump("LogPackageList: Found $field type " . Protobuf::get_wiretype($wire) . " $limit bytes left");
             switch ($field) {
                 case 1:
                     ASSERT('$wire == 2');
                     $len = Protobuf::read_varint($fp, $limit);
                     if ($len === false) {
-                        throw new Exception('Protobuf::read_varint returned false');
+                        throw new \Exception('Protobuf::read_varint returned false');
                     }
                     $limit -= $len;
-                    $this->logGroupList_[] = new LogGroup($fp, $len);
+                    $this->packages_[] = new \LogPackage($fp, $len);
                     ASSERT('$len == 0');
                     break;
                 default:
@@ -51,17 +52,17 @@ class LogGroupList
             }
         }
         if (!$this->validateRequired()) {
-            throw new Exception('Required fields are missing');
+            throw new \Exception('Required fields are missing');
         }
     }
 
     function write($fp)
     {
         if (!$this->validateRequired()) {
-            throw new Exception('Required fields are missing');
+            throw new \Exception('Required fields are missing');
         }
-        if (!is_null($this->logGroupList_)) {
-            foreach ($this->logGroupList_ as $v) {
+        if (!is_null($this->packages_)) {
+            foreach ($this->packages_ as $v) {
                 fwrite($fp, "\x0a");
                 Protobuf::write_varint($fp, $v->size()); // message
                 $v->write($fp);
@@ -72,8 +73,8 @@ class LogGroupList
     public function size()
     {
         $size = 0;
-        if (!is_null($this->logGroupList_)) {
-            foreach ($this->logGroupList_ as $v) {
+        if (!is_null($this->packages_)) {
+            foreach ($this->packages_ as $v) {
                 $l = $v->size();
                 $size += 1 + Protobuf::size_varint($l) + $l;
             }
@@ -90,58 +91,58 @@ class LogGroupList
     {
         return ''
             . Protobuf::toString('unknown', $this->_unknown)
-            . Protobuf::toString('logGroupList_', $this->logGroupList_);
+            . Protobuf::toString('packages_', $this->packages_);
     }
 
-    // repeated .LogGroup logGroupList = 1;
+    // repeated .LogPackage packages = 1;
 
-    private $logGroupList_ = null;
+    private $packages_ = null;
 
-    public function clearLogGroupList()
+    public function clearPackages()
     {
-        $this->logGroupList_ = null;
+        $this->packages_ = null;
     }
 
-    public function getLogGroupListCount()
+    public function getPackagesCount()
     {
-        if ($this->logGroupList_ === null) {
+        if ($this->packages_ === null) {
             return 0;
         } else {
-            return count($this->logGroupList_);
+            return count($this->packages_);
         }
     }
 
-    public function getLogGroupList($index)
+    public function getPackages($index)
     {
-        return $this->logGroupList_[$index];
+        return $this->packages_[$index];
     }
 
-    public function getLogGroupListArray()
+    public function getPackagesArray()
     {
-        if ($this->logGroupList_ === null) {
+        if ($this->packages_ === null) {
             return array();
         } else {
-            return $this->logGroupList_;
+            return $this->packages_;
         }
     }
 
-    public function setLogGroupList($index, $value)
+    public function setPackages($index, $value)
     {
-        $this->logGroupList_[$index] = $value;
+        $this->packages_[$index] = $value;
     }
 
-    public function addLogGroupList($value)
+    public function addPackages($value)
     {
-        $this->logGroupList_[] = $value;
+        $this->packages_[] = $value;
     }
 
-    public function addAllLogGroupList(array $values)
+    public function addAllPackages(array $values)
     {
         foreach ($values as $value) {
-            $this->logGroupList_[] = $value;
+            $this->packages_[] = $value;
         }
     }
 
-    // @@protoc_insertion_point(class_scope:LogGroupList)
+    // @@protoc_insertion_point(class_scope:LogPackageList)
 }
 
