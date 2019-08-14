@@ -4,7 +4,8 @@
  * All rights reserved
  */
 
-class Aliyun_Log_Models_OssShipperStorage{
+class Aliyun_Log_Models_OssShipperStorage
+{
     private $format;
 
     /**
@@ -22,6 +23,4 @@ class Aliyun_Log_Models_OssShipperStorage{
     {
         $this->format = $format;
     }
-
-
 }
