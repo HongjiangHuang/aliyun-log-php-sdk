@@ -1,0 +1,12 @@
+{
+    "name": "hongjianghuang/aliyun-log-php-sdk",
+    "description": "Log Service SDK for PHP，used to set/get log data to Aliyun Log Service(www.aliyun.com/product/sls).",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Albert",
+            "email": "albert_p@foxmail.com"
+        }
+    ],
+    "require": {}
+}
