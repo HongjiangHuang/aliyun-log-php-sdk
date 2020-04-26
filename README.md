@@ -14,6 +14,34 @@ Log Service SDK for PHP，used to set/get log data to Aliyun Log Service(www.ali
 
 API Reference: [中文](https://help.aliyun.com/document_detail/29007.html) [ENGLISH](https://www.alibabacloud.com/help/doc-detail/29007.htm)
 
+### Use composer
+
+`composer require hongjianghuang/aliyun-log-php-sdk`
+
+### Examples
+
+```php
+$log_item = new \Aliyun_Log_Models_LogItem();
+$log_item->setTime(time());
+$log_item->setContents($contents);
+
+$endpoint = '';
+$access_key_id = '';
+$access_key = '';
+$project = '';
+$logstore = ''
+$topic = 'test';
+$logitems = [
+    $log_item,
+];
+
+$client = new \Aliyun_Log_Client($endpoint, $access_key_id, $access_key);
+$request = new \Aliyun_Log_Models_PutLogsRequest($project, $logstore, $topic, $source, $logitems);
+$response = @$client->putLogs($request);
+if (200 != array_get($response->getAllHeaders(), '_info.http_code')) {
+    throw new \Exception('Request aliyun error');
+}
+```
 
 ### Summary
 
